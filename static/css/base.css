@@ -1,0 +1,61 @@
+body {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+.dashboard-bg-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12vw;
+    font-weight: 900;
+    color: rgba(30, 58, 138, 0.04);
+    z-index: -1; 
+    user-select: none;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+.group:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* All Django Inputs ~~ Tailwind CSS */
+input {
+    width: 100%;
+    padding: 12px 20px;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    border-radius: 15px;
+    outline: none;
+    transition: all 0.3s;
+}
+input:focus { border-color: #1d4ed8; background: white; }
+
+/* Register */
+input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 1.25rem;
+    background-color: #f9fafb;
+    border: 1px solid #f3f4f6;
+    outline: none;
+    transition: all 0.2s;
+    font-weight: 600;
+    color: #1f2937;
+}
+input:focus {
+    border-color: #1d4ed8;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.1);
+}

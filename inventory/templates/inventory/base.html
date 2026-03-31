@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AutoFlow{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href=" {% static 'css/base.css' %}">
+</head>
+
+<body class="font-sans"> 
+    <div class="dashboard-bg-logo">AUTOFLOW</div>
+
+    <nav class="bg-blue-800 text-white p-4 shadow-lg mb-8 relative z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            
+            <div class="flex items-center space-x-8">
+                <a href="{% url 'dashboard' %}"
+                class="text-2xl font-black tracking-tighter flex items-center">
+                <span class="bg-white text-blue-800 px-2 py-0.5 rounded-lg mr-2">AF</span> AutoFlow
+                </a>
+                
+                {% if user.is_staff %}
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{% url 'part_list' %}" 
+                    class="hover:text-blue-200 font-medium transition flex items-center">
+                    <i class="fas fa-warehouse mr-2 opacity-70"></i> Warehouse
+                    </a>
+
+                    <div class="relative group">
+                        <button class="flex items-center hover:text-blue-200 font-medium transition outline-none">
+                            <i class="fas fa-users mr-2 opacity-70"></i> Clients 
+                            <i class="fas fa-chevron-down ml-2 text-[10px]"></i>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 p-4 text-gray-800">
+                            <div class="relative mb-3">
+                                <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
+
+                                <input type="text" id="client-search" placeholder="Quick find client..." 
+                                       class="w-full pl-8 pr-4 py-2 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm focus:border-blue-500 transition"
+                                       onkeyup="filterClients()">
+                            </div>
+                            
+                            <div id="client-dropdown-list" class="max-h-60 overflow-y-auto space-y-1">
+                                {% for c in all_clients_global %}
+
+                                <a href="{% url 'client_detail' c.id %}" 
+                                class="client-item block hover:bg-gray-50 p-2 rounded-lg transition">
+
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-bold text-gray-700">{{ c.name }}</span>
+                                    </div>
+
+                                    <span class="block text-[10px] text-gray-400">View History & Volume</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="border-t mt-3 pt-3 flex flex-col space-y-2">
+                                <a href="{% url 'client_list' %}" 
+                                class="text-center text-xs font-bold text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-list mr-1"></i> Manage All Clients
+                                </a>
+
+                                <a href="/admin/inventory/client/add/" 
+                                class="text-center text-[11px] font-bold text-green-600 hover:text-green-700 bg-green-50 py-2 rounded-lg">
+                                    <i class="fas fa-plus-circle mr-1"></i> Add New Client
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="flex items-center space-x-5">
+                {% if user.is_authenticated %}
+                    <div class="text-right hidden sm:block">
+                        <p class="text-[10px] uppercase font-black text-gray-300 leading-none">Logged In as</p>
+                        <p class="text-sm font-bold">{{ user.username }}</p>
+                    </div>
+
+                    <a href="{% url 'view_quote' %}" 
+                    class="relative bg-white/10 p-2.5 rounded-xl hover:bg-white/20 transition group">
+                        <i class="fas fa-file-invoice text-lg text-yellow-400"></i>
+
+                        <span id="quote-count" 
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-md shadow-lg group-hover:scale-110 transition">
+                            {{ request.session.quote_list|length|default:0 }}
+                        </span>
+                    </a>
+
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" 
+                            class="bg-red-500/80 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition text-xs font-black uppercase tracking-wider">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                {% else %}
+
+                    <a href="{% url 'register' %}" 
+                    class="bg-white text-blue-600 px-8 py-1 rounded-2xl font-black uppercase hover:bg-gray-100 transition shadow-lg">
+                    Register
+                    </a>
+
+                    <a href="{% url 'login' %}" 
+                    class="bg-white text-blue-600 px-8 py-1 rounded-2xl font-black  uppercase hover:bg-gray-100 transition shadow-lg">
+                    Login
+                    </a>
+                    
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 relative z-10">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="mt-20 py-10 border-t border-gray-200 text-center text-gray-400 text-xs relative z-10">
+        <div class="flex justify-center space-x-4 mb-4 opacity-50">
+            <i class="fas fa-shield-alt"></i>
+            <i class="fas fa-database"></i>
+            <i class="fas fa-bolt"></i>
+        </div>
+        <strong>&copy; 2026 AutoFlow - Intelligent Warehouse  Managment System</strong>
+        <p class="mt-1">Built for speed, accuracy and efficiency.</p>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

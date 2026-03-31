@@ -1,0 +1,158 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}
+Preparation of an offer
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-10">
+
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-extrabold text-gray-800 italic uppercase tracking-tighter">
+            {% if user.is_staff %}New Offer{% else %}My Shopping Cart{% endif %}
+        </h1>
+        <a href="{% url 'part_list' %}" class="text-blue-600 font-bold hover:text-blue-800 transition">
+            ← Back to warehouse
+        </a>
+    </div>
+
+    <div class="bg-white shadow-2xl rounded-[40px] overflow-hidden border border-gray-100">
+        <div class="p-8 border-b bg-gray-50/50">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                
+                <div>
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-3 ml-2 tracking-widest">
+                        {% if user.is_staff %}Auto Parts Shop / Car Service{% else %}Customer Profile{% endif %}
+                    </label>
+                    
+                    {% if user.is_staff %}
+                        <select id="client-select" onchange="updateClientDiscount()" 
+                                class="w-full p-4 bg-white border-2 border-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-gray-700 shadow-sm">
+                            <option value="" data-discount="0">---- UNIT PERSON ----</option>
+                            {% for client in clients %}
+                                <option value="{{ client.id }}" data-discount="{{ client.def_discount }}">
+                                    {{ client.name }} ({{ client.def_discount }}%)
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                    {% else %}
+                        <div class="w-full p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex items-center shadow-sm">
+                            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white mr-4 shadow-lg shadow-blue-200">
+                                <i class="fas fa-user border-none"></i>
+                            </div>
+                            <div>
+                                <p class="text-blue-700 font-black text-lg leading-tight">{{ user.username }}</p>
+                                <p class="text-blue-400 text-[10px] uppercase font-bold tracking-tighter italic">Personal Partner Access</p>
+                            </div>
+                        </div>
+                        <input type="hidden" id="client-select" value="{{ user.client_profile.id }}">
+                        <input type="hidden" id="client-name" value="{{ user.username }}">
+                    {% endif %}
+                   
+                </div>
+
+                <div class="text-right">
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-3 mr-2 tracking-widest text-right">Applied Discount</label>
+                    <div class="relative">
+                        <input type="number" id="discount-input" 
+                               value="{{ current_client_discount }}" 
+                               min="0" max="100" 
+                               oninput="updateQuoteTotals()"
+                               {% if not user.is_staff %}readonly{% endif %}
+                               class="w-full md:w-40 p-4 border-2 border-gray-100 rounded-2xl focus:ring-4 focus:ring-red-500/10 focus:border-red-500 outline-none shadow-sm text-right font-black text-red-600 text-xl {% if not user.is_staff %}bg-gray-100 opacity-70 cursor-not-allowed{% endif %}">
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="p-5 text-[10px] font-black uppercase text-gray-400 tracking-widest italic">OEM / Brand</th>
+                        <th class="p-5 text-[10px] font-black uppercase text-gray-400 tracking-widest italic">Description</th>
+                        <th class="p-5 text-right text-[10px] font-black uppercase text-gray-400 tracking-widest italic">Price</th>
+                        <th class="p-5 text-center text-[10px] font-black uppercase text-gray-400 tracking-widest italic">Quantity</th>
+                        <th class="p-5 text-right text-[10px] font-black uppercase text-gray-400 tracking-widest italic">Line Total</th>
+                        <th class="p-5 text-center text-[10px] font-black uppercase text-gray-400 tracking-widest italic">Remove</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-50">
+                    {% for part in parts %}
+                    <tr class="hover:bg-blue-50/30 transition row-part" 
+                        data-price="{{ part.sale_price }}" 
+                        data-stock="{{ part.stock_qty }}">
+
+                        <td class="p-5">
+                            <span class="block text-blue-700 font-black text-base">{{ part.oem_num }}</span>
+                            <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">{{ part.brand.name }}</span>
+                        </td>
+                        <td class="p-5 text-gray-700 font-semibold text-sm">{{ part.name }}</td>
+                        <td class="p-5 text-right font-bold text-gray-800">{{ part.sale_price }} €</td>
+                        <td class="p-5 text-center">
+                            <div class="inline-block bg-white border-2 border-gray-100 rounded-xl p-1 shadow-sm">
+                                <input type="number" value="1" min="1" oninput="updateQuoteTotals()"
+                                       class="w-16 p-1 text-center font-black text-blue-700 outline-none qty-input">
+                            </div>
+                             <div class="stock-warning text-[9px] mt-1 font-black uppercase tracking-tighter"></div>
+                        </td>
+                        <td class="p-5 text-right font-black text-blue-800 line-total text-base">{{ part.sale_price }} €</td>
+                        <td class="p-5 text-center">
+                            <button onclick="removeFromQuote('{{ part.id }}')" 
+                                    class="w-10 h-10 flex items-center justify-center rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                <i class="fas fa-trash-alt text-sm"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="p-20 text-center">
+                            <p class="text-gray-300 italic text-lg font-medium">Your cart is empty.</p>
+                            <a href="{% url 'part_list' %}" class="inline-block mt-4 text-blue-600 font-black uppercase text-xs tracking-widest hover:underline">Go to warehouse →</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="p-10 bg-blue-900 text-white flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-file-invoice-dollar text-xl text-blue-300"></i>
+                </div>
+                <div>
+                    <p class="text-blue-200 text-[10px] uppercase font-black tracking-[0.2em] mb-1">Final Summary</p>
+                    <p class="text-xs text-blue-300 italic opacity-70">* Prices include VAT and applied partner discount.</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <span id="final-total" class="text-5xl font-black tracking-tighter tabular-nums">{{ total }} €</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 flex flex-wrap justify-end gap-4">
+
+        <button onclick="clearQuote()" 
+                class="bg-white text-gray-400 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-50 hover:text-red-500 transition-all border border-gray-100 shadow-sm">
+            Delete Cart
+        </button>
+
+        <button onclick="submitFinalize()" 
+                class="bg-blue-700 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-blue-200 hover:bg-blue-800 transition-all transform hover:-translate-y-1 active:scale-95">
+            {% if user.is_staff %}Finalize & Save Sale{% else %}Confirm Order{% endif %}
+        </button>
+
+        <button onclick="generatePDF()" 
+                class="bg-green-600 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-green-200 hover:bg-green-700 transition-all transform hover:-translate-y-1 active:scale-95">
+            Download PDF Offer
+        </button>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-16 px-4">
+    <div class="text-center mb-16">
+        <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest">
+            Warehouse Management System
+        </span>
+
+        <h1 class="text-7xl font-black text-gray-800 mt-6 tracking-tighter">
+            AUTO<span class="text-blue-700">
+            FLOW</span> <span class="italic text-gray-300">
+            PRO</span>
+        </h1>
+
+        <p class="text-xl text-gray-500 mt-6 max-w-2xl mx-auto leading-relaxed">
+            <strong>A professional ecosystem for managing auto parts, inventory, and B2B orders.</br>Designed for speed and precision</strong>
+        </p>
+        
+        <div class="mt-10 flex justify-center gap-4">
+
+            <a href="{% url 'login' %}" 
+            class="bg-blue-700 hover:bg-blue-800 text-white px-10 py-4 rounded-2xl 
+            font-black shadow-xl shadow-blue-200 transition-all uppercase tracking-wide">
+            Login to the system
+            </a>
+
+            <a href="#features" 
+            class="bg-transparent border-2 border-blue-700 text-blue-700 px-10 py-4 rounded-2xl font-black 
+            hover:bg-blue-50 transition-all uppercase tracking-widest text-sm flex items-center gap-2">
+            About Us <span class="text-lg">↓</span>
+            </a>
+        </div>
+    </div>
+    
+    <div id="features" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-10 rounded-[40px] border-t-4 border-t-blue-600 shadow-sm hover:shadow-lg transition">
+            <div class="mb-6">
+                <span class="text-[10px] font-black bg-blue-50 text-blue-700 px-3 py-1 rounded-lg uppercase tracking-widest">
+                    Module 01</span>
+            </div>
+
+            <h3 class="text-2xl font-black text-gray-800 mb-4 tracking-tighter">
+                Inventory <span class="text-blue-600">Core</span>
+            </h3>
+
+            <p class="text-gray-500 text-sm leading-relaxed">
+                Real-time inventory tracking, automatic generation of OEM descriptions and category management.
+            </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-blue-500">
+            <div class="mb-6">
+                <span class="text-[10px] font-black bg-blue-50 text-blue-700 px-3 py-1 rounded-lg uppercase tracking-widest">
+                    Module 02</span>
+            </div>
+
+            <h3 class="text-xl font-black text-gray-800 mb-3 tracking-tighter italic">
+                Clients <span class="text-blue-700">Hub</span>
+            </h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+                Personalized discounts for workshops and stores, order history, and automated B2B invoicing.
+            </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-blue-500">
+            <div class="mb-6">
+                <span class="text-[10px] font-black bg-blue-50 text-blue-700 px-3 py-1 rounded-lg uppercase tracking-widest">
+                    Module 03</span>
+            </div>
+
+            <h3 class="text-xl font-black text-gray-800 mb-3 tracking-tighter italic">
+                Offers <span class="text-blue-700">Engine</span>
+            </h3>
+
+            <p class="text-gray-500 text-sm leading-relaxed">
+                Generate professional оffers!<br>A PDF-documents for clients with one click, directly from your digital shopping cart.
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-20 bg-gray-900 rounded-[50px] p-12 text-white relative overflow-hidden">
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-left">
+                <h1 class="text-4xl font-black mb-4">Get a <strong class="text-4xl italic">10% Discount</strong> , with one registration!</h1>
+                <h2 class="text-3xl font-black mb-2">Are you ready to optimize your business?</h2>
+                
+                <p class="text-gray-400 text-2xl">Contact our team for a demo, partner access or visit our store.</p>
+            </div>
+            
+            <div class="mt-8 md:mt-0 space-y-3 text-right">
+                <p class="font-bold"><i class="fas fa-phone text-blue-400 mr-2"></i> +359 887 123 456</p>
+                <p class="font-bold"><i class="fas fa-envelope text-blue-400 mr-2"></i> office@autoflow.pro</p>
+                <p class="text-sm text-gray-500 italic">Pleven city, 99 Targovska Street</p>
+            </div>
+        </div>
+        <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-600 rounded-full opacity-10 blur-3xl"></div>
+    </div>
+
+    <div class="mt-10 overflow-hidden py-10 bg-gray-50/50 border-y border-gray-100">
+        <div class="flex flex-col items-center mb-12">
+            <h2 class="text-gray-400 uppercase tracking-[0.3em] text-3xl font-black">Our Top Brands</h2>
+            <div class="h-1 w-12 bg-blue-600 mt-3 rounded-full"></div>
+        </div>
+
+        <div class="relative flex overflow-x-hidden group 
+        before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-32 before:bg-gradient-to-r before:from-gray-50
+        after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-32 after:bg-gradient-to-l after:from-gray-50">
+            
+            <div class="py-4 animate-marquee whitespace-nowrap flex items-center group-hover:pause">
+                <img src="/static/images/bosch.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Bosch">
+                <img src="/static/images/brembo-logo-2.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Brembo">
+                <img src="/static/images/castrol-4.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Castrol">
+                <img src="/static/images/ngk-4.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="NGK">
+                <img src="/static/images/continental-54.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Continental">
+                <img src="/static/images/lemforder.svg"
+                 class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                 alt="Lemforder">
+                <img src="/static/images/bardahl.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Bardahl">
+                <img src="/static/images/febi-bilstein.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Febi Bilstein">
+                <img src="/static/images/varta-logo-1.svg" 
+                class="mx-12 h-16 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition duration-500" 
+                alt="Varta">
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes marquee2 {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee {animation: marquee 25s linear infinite;}
+.animate-marquee2 {animation: marquee2 25s linear infinite;}
+.pause {animation-play-state: paused;}
+</style>
+
+{% endblock %}

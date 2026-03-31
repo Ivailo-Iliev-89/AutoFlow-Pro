@@ -1,0 +1,54 @@
+<table class="w-full text-left border-collapse">
+    <thead class="bg-gray-50 text-gray-400 text-[10px] uppercase tracking-widest">
+        <tr>
+            <th class="p-4">Part Name / Brand</th>
+            <th class="p-4">OEM Number</th>
+            <th class="p-4">Price</th>
+            <th class="p-4">Stock Status</th> <th class="p-4 text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+
+        {% for part in parts %}
+        <tr class="hover:bg-blue-50/30 transition-colors group">
+
+            <td class="p-4">
+                <div class="font-bold text-gray-800">{{ part.name }}</div>
+                <div class="text-[10px] text-blue-600 font-black uppercase">{{ part.brand.name }}</div>
+            </td>
+
+            <td class="p-4 font-mono text-sm text-gray-500">{{ part.oem_num }}</td>
+            <td class="p-4 font-black text-gray-800">{{ part.sale_price }} €</td>
+            
+            <td class="p-4">
+                {% if user.is_staff %}
+                    <span class="px-3 py-1 rounded-full text-xs font-bold 
+                    {% if part.stock_qty < 5 %}bg-red-100 text-red-600
+                    {% else %}bg-green-100 text-green-600
+                    {% endif %}">
+                    {{ part.stock_qty }} pcs.
+                    </span>
+
+                {% else %}
+                    {% if part.stock_qty > 0 %}
+                        <span class="flex items-center text-green-600 font-bold text-sm">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                            In Stock
+                        </span>
+                    {% else %}
+                        <span class="text-red-400 font-bold italic text-sm">Contact us</span>
+                    {% endif %}
+                {% endif %}
+            </td>
+
+            <td class="p-4 text-center">
+                <button onclick="addToQuote('{{ part.id }}')" 
+                        class="bg-blue-700 text-white p-2 px-4 rounded-xl text-xs font-black hover:bg-blue-800 transition shadow-lg">
+                    + ADD
+                </button>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,128 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-10 px-4">
+    
+    <div class="flex justify-between items-center mb-8">
+
+        <h1 class="text-3xl font-black text-gray-800 tracking-tighter italic">
+            WAREHOUSE <span class="text-blue-700">
+            SEARCH</span>
+        </h1>
+
+        <div class="flex gap-2">
+            {% if user.is_staff %}
+                <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-xl font-bold text-sm">
+                    Articles: {{ total_parts_count }}
+                </span>
+                <span class="bg-green-100 text-green-700 px-4 py-2 rounded-xl font-bold text-sm">
+                    Stock: {{ total_stock_qty }}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if not user.is_staff %}
+    <div class="mb-10 overflow-hidden relative bg-white py-6 rounded-[30px] border border-gray-100 shadow-sm">
+        <div class="absolute inset-0 z-10 pointer-events-none 
+        before:absolute before:left-0 before:top-0 before:h-full before:w-24 before:bg-gradient-to-r before:from-white 
+        after:absolute after:right-0 after:top-0 after:h-full after:w-24 after:bg-gradient-to-l after:from-white">
+    </div>
+
+        <div class="flex whitespace-nowrap">
+            <div class="flex items-center space-x-16 animate-marquee shrink-0">
+                <img src="/static/images/bosch.svg" class="h-10 w-auto" alt="Bosch">
+                <img src="/static/images/brembo-logo-2.svg" class="h-10 w-auto" alt="Brembo">
+                <img src="/static/images/castrol-4.svg" class="h-10 w-auto" alt="Castrol">
+                <img src="/static/images/ngk-4.svg" class="h-10 w-auto" alt="NGK">
+                <img src="/static/images/continental-54.svg" class="h-10 w-auto" alt="Continental">
+                <img src="/static/images/lemforder.svg" class="h-10 w-auto" alt="Lemforder">
+                <img src="/static/images/bardahl.svg" class="h-10 w-auto" alt="Bardahl">
+                <img src="/static/images/varta-logo-1.svg" class="h-10 w-auto" alt="Varta">
+            </div>
+
+            <div class="flex items-center space-x-16 animate-marquee shrink-0 ml-16">
+                <img src="/static/images/bosch.svg" class="h-10 w-auto" alt="Bosch">
+                <img src="/static/images/brembo-logo-2.svg" class="h-10 w-auto" alt="Brembo">
+                <img src="/static/images/castrol-4.svg" class="h-10 w-auto" alt="Castrol">
+                <img src="/static/images/ngk-4.svg" class="h-10 w-auto" alt="NGK">
+                <img src="/static/images/continental-54.svg" class="h-10 w-auto" alt="Continental">
+                <img src="/static/images/lemforder.svg" class="h-10 w-auto" alt="Lemforder">
+                <img src="/static/images/bardahl.svg" class="h-10 w-auto" alt="Bardahl">
+                <img src="/static/images/varta-logo-1.svg" class="h-10 w-auto" alt="Varta">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="relative mb-10">
+        <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+        <input type="text" id="search-input" 
+               placeholder="Start typing by OEM, Name or Brand..." 
+               class="w-full pl-16 pr-6 py-6 bg-white rounded-3xl shadow-xl border-none 
+               outline-none text-xl focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-gray-700">
+    </div>
+
+    <div id="search-results" 
+    class="mt-8 bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 min-h-[100px]">
+        <div class="p-10 text-center text-gray-400 italic">
+            Search results will appear here...
+        </div>
+    </div>
+
+    {% if user.is_staff %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-red-50">
+            <h3 class="text-sm font-black text-red-500 uppercase mb-4 tracking-widest flex items-center">
+                <i class="fas fa-exclamation-triangle mr-2"></i> 
+                Low Stock Alerts
+            </h3>
+
+            {% for p in critical_parts %}
+            <div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
+                <span class="text-sm font-bold text-gray-700">
+                    {{ p.name }}
+                </span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded font-black">
+                    {{ p.stock_qty }} left
+                </span>
+            </div>
+            {% empty %}
+                <p class="text-xs text-gray-400 italic">Everything is in stock.</p>
+            {% endfor %}
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-50">
+            <h3 class="text-sm font-black text-blue-500 uppercase mb-4 tracking-widest flex items-center">
+                <i class="fas fa-clock mr-2"></i> Recently Added
+            </h3>
+
+            {% for p in recent_parts %}
+            <div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
+                <span class="text-sm font-bold text-gray-700">
+                    {{ p.name }}
+                </span>
+                <span class="text-xs text-gray-400 font-mono italic">
+                    {{ p.oem_num }}
+                </span>
+            </div>
+            {% empty %}
+                <p class="text-xs text-gray-400 italic">No recent items.</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<style>
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {animation: marquee 40s linear infinite;display: flex;}
+.shrink-0 {flex-shrink: 0;}
+</style>
+{% endblock %}

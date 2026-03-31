@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* Only for PDF/xhtml2pdf
+        /* PDF Body */
+        body { 
+            font-family: 'Helvetica', 'Arial', sans-serif; 
+            color: #333; 
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* PDF Logo */
+        .header-table { width: 100%; margin-bottom: 40px; border: none; }
+        .logo { 
+            font-size: 32px; 
+            font-weight: 900; 
+            color: #111; 
+            font-style: italic;
+            text-transform: uppercase;
+        }
+        .logo span { color: #1d4ed8; }
+        .document-type { 
+            text-align: right; 
+            text-transform: uppercase; 
+            color: #94a3b8; 
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Info about Client/Company */
+        .info-table { width: 100%; margin-bottom: 30px; border: none; }
+        .info-label { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: bold; margin-bottom: 5px; }
+        .info-value { font-size: 14px; font-weight: bold; color: #1e293b; }
+
+        /* Parts Table */
+        table.items-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table.items-table th { 
+            background-color: #f8fafc; 
+            border-bottom: 2px solid #1d4ed8; 
+            color: #1e293b; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            padding: 12px;
+            text-align: left;
+        }
+        table.items-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        
+        /* Alignment */
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+
+        /* Total */
+        .total-wrapper { margin-top: 30px; width: 100%; }
+        .total-table { width: 250px; margin-left: auto; border: none; }
+        .total-row td { padding: 5px 0; }
+        .grand-total { font-size: 20px; 
+            color: #1d4ed8; 
+            font-weight: 900; 
+            border-top: 2px solid #1d4ed8;
+            padding-top: 10px !important;
+        }
+
+        /* Footer */
+        .footer { 
+            position: fixed; 
+            bottom: 30px; 
+            width: 100%; 
+            text-align: center; 
+            font-size: 10px; 
+            color: #94a3b8;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <table class="header-table">
+        <tr>
+            <td class="logo">AUTO<span>FLOW</span></td>
+            <td class="document-type">Official Offer</td>
+        </tr>
+    </table>
+
+    <table class="info-table">
+        <tr>
+            <td width="50%">
+                <div class="info-label">Customer</div>
+                <div class="info-value">{{ client_name }}</div>
+            </td>
+            <td width="50%" class="text-right">
+                <div class="info-label">Date of Issue</div>
+                <div class="info-value">{% now "d F Y" %}</div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>OEM Number</th>
+                <th>Part Description / Brand</th>
+                <th class="text-right">Price</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-right">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in parts_data %} 
+            <tr>
+                <td style="font-family: monospace;">{{ item.part.oem_num }}</td>
+                <td>
+                    <strong>{{ item.part.brand.name }}</strong><br>
+                    <span style="color: #64748b; font-size: 11px;">{{ item.part.name }}</span>
+                </td>
+                <td class="text-right">{{ item.part.sale_price }} €</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-right"><strong>{{ item.line_total|stringformat:".2f" }} €</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total-wrapper">
+        <table class="total-table">
+            <tr class="total-row">
+                <td class="text-right" style="color: #64748b;">Subtotal:</td>
+                <td class="text-right"><strong>{{ subtotal|stringformat:".2f" }} €</strong></td>
+            </tr>
+            <tr class="total-row">
+                <td class="text-right" style="color: #ef4444;">Discount:</td>
+                <td class="text-right" style="color: #ef4444;">- {{ discount|floatformat:0 }}%</td>
+            </tr>
+            <tr class="total-row">
+                <td class="text-right grand-total">TOTAL:</td>
+                <td class="text-right grand-total">{{ total|stringformat:".2f" }} €</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        AutoFlow Pro | Pleven city, 99 Targovska Street | +359 887 123 456 | office@autoflow.pro
+    </div>
+
+</body>
+</html>
