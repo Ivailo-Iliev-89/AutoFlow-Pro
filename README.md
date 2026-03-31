@@ -1,5 +1,5 @@
 #  AutoFlow Pro
-### Professional B2B Warehouse & Inventory Management System
+### Professional B2B Warehouse and Inventory Management System
 
 **AutoFlow Pro** is a robust web-based ecosystem designed to bridge the gap between complex automotive inventory and streamlined B2B sales. 
 By integrating real-time stock tracking with an intelligent quotation engine, it empowers warehouse managers and sales representatives to deliver precision and speed in the auto parts industry.
