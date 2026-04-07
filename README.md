@@ -5,7 +5,7 @@
 By integrating real-time stock tracking with an intelligent quotation engine, it empowers warehouse managers and sales representatives to deliver precision and speed in the auto parts industry.
 
 
-## ## Preview & Core Workflow
+### Preview & Core Workflow
 
 #### 1. Professional Interface: Landing Page
 ![Home Page](screenshots/autoflow-home1.png)

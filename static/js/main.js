@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     resultsContainer.innerHTML = data.html;
                 })
-                .catch(error => console.error('Грешка при търсене:', error));
+                .catch(error => console.error('Error by searching:', error));
             } else if (query.length === 0) {
                 resultsContainer.innerHTML = `
                     <div class="p-10 text-center text-gray-400 italic">
