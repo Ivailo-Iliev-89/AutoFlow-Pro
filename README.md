@@ -7,7 +7,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 
 ## ## Preview & Core Workflow
 
-#### ### 1. Professional Interface: Landing Page
+#### 1. Professional Interface: Landing Page
 ![Home Page](screenshots/autoflow-home1.png)
 > **Visual Profile:** Modular UI featuring the "Glassmorphism" entry hub, high-contrast action buttons, and structured Module 01-03 access points for seamless system navigation.
 
@@ -15,11 +15,11 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 ![Brand Showcase](screenshots/autoflow-home2.png)
 > **Visual Profile:** Integrated B2B incentives with a 10% registration offer, contact intelligence, and a dynamic "Infinite Loop" marquee showcasing partner logos with interactive hover effects.
 
-#### ### 2. Warehouse Command Center (Stock Management)
+#### 2. Warehouse Command Center (Stock Management)
 ![Warehouse Admin](screenshots/autoflow-admin-warehouse.png)
 > **Visual Profile:** Administrative view featuring **Low-Stock Alerts**, **Recently Added** real-time inventory tracking, and smart filtering by OEM or Brand.
 
-#### ### 3. B2B Client Workspace: Smart Quoting
+#### 3. B2B Client Workspace: Smart Quoting
 ![Client Cart](screenshots/autoflow-client-cart.png)
 > **Visual Profile:** The secure B2B dashboard where OEM search results meet personalized pricing with **automated 10% discount** calculations.Note the green status indicators showing precise stock availability and recently updated items.
 
@@ -27,15 +27,15 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 ![Admin Offer](screenshots/autoflow-admin-offer.png)
 > **Visual Profile:** Demonstrates the Admin's ability to **dynamically select/switch clients** during the order process. The system automatically recalculates prices based on the selected partner's specific discount tier (`def_discount`) before finalization.
 
-#### ### 4. Automated Commercial Proposal (PDF)
+#### 4. Automated Commercial Proposal (PDF)
 ![PDF Quotation](screenshots/autoflow-client-pdf-offer.png)
 > **Visual Profile:** Instantly rendered, print-ready PDF quotations featuring VAT breakdowns and business branding.
 
-#### ### 5. Central Business Analytics
+#### 5. Central Business Analytics
 ![Admin Dashboard](screenshots/autoflow-admin-dashboard.png)
 > **Visual Profile:** High-level overview of total business volume, active clients(at dropdown menu/quick navigation or filtering by their transactional history).
 
-#### ### 6. Security & Permission Logic (Admin vs Client)
+#### 6. Security & Permission Logic (Admin vs Client)
 | B2B CLIENT VIEW (Restricted) | ADMIN VIEW (Full Access) |
 | :--- | :--- |
 | ![Client View](screenshots/autoflow-permission-client.png) | ![Admin View](screenshots/autoflow-permission-admin.png) |
