@@ -41,6 +41,10 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 | ![Client View](screenshots/autoflow-permission-client.png) | ![Admin View](screenshots/autoflow-permission-admin.png) |
 > **Visual Profile:** Demonstrates **Role-Based Access Control (RBAC)**. Clients are restricted to "View-only" access, while Administrators have full "Delete/Modify" authority.
 
+#### 7. Data Management (Pandas Integration)
+![Excel Import](screenshots/autoflow-excel-structure.png)
+> **Visual Profile:** The system supports rapid inventory scaling via Python/Pandas. Administrators can bypass manual entry by importing bulk OEM data directly from Excel files.
+
 
 ### **Key Technical Features**
 
@@ -50,6 +54,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 * **Automated Stock Safeguard**: <u>Developed</u> server-side validation logic that <u>cross-checks</u> cart quantities against real-time `stock_qty`, <u>preventing</u> over-ordering and ensuring reliable fulfillment.
 * **Dynamic UI Components**: <u>Developed</u> high-performance "Infinite Marquee" galleries using Tailwind CSS to <u>showcase</u> partner brands (Bosch, Brembo, etc.) and <u>enhance</u> platform professional credibility.
 * **Custom Auth & Permissions**: <u>Defined</u> granular user roles (`is_staff` vs `is_client`) by <u>extending</u> the Django User model to <u>secure</u> administrative warehouse operations and order management.
+* **Automated Data Ingestion**: <u>Developed</u> a custom Django Management Command powered by **Pandas** to <u>parse</u> and <u>import</u> thousands of OEM parts from Excel, <u>reducing</u> manual data entry time.
 
 
 ### **Tech Stack**
@@ -59,6 +64,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 * **Frontend**: **HTML**, **CSS** (**Tailwind CSS Framework**), **JavaScript** (Dynamic Calculations & UI Interactivity)
 * **Security**: **Role-Based Access Control (RBAC)**, **CSRF Protection**, and **Custom User Models**.
 * **Environment Management**: **Python-dotenv** (Credential Decoupling)
+* **Data Processing**: **Pandas**, **Openpyxl** (Excel Automation & Bulk Data Handling)
 
 
 ### **What I Learned**
@@ -68,6 +74,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 * **Business Logic Execution**: <u>Recognized</u> the vital importance of <u>creating</u> immutable data snapshots (`QuotationItem`) to <u>ensure</u> that generated documents remain accurate regardless of future price updates.
 * **Advanced CSS & UX**: <u>Discovered</u> how to <u>optimize</u> user engagement by <u>deploying</u> Tailwind animations and "hover-to-pause" logic for a premium B2B aesthetic.
 * **Atomic Transactions**: <u>Learned</u> to <u>protect</u> database integrity by ensuring stock deductions only occur upon successful order finalization.
+* **Data Automation & Scalability**: <u>Learned</u> to leverage **Pandas** for high-speed data ingestion, <u>mastering</u> the transition from manual entry to automated bulk uploads via custom Django management commands.
 
 
 ### **Instructions to Setup**
@@ -95,6 +102,10 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
    
 8. **Run Server**:
    `python manage.py runserver`
+
+9. **Bulk Inventory Import (Optional)**:
+   Populate the database instantly using the built-in Excel import command:
+   `python manage.py import_parts example_parts.xlsx`
 
 
 ### **Usage**
