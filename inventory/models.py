@@ -102,7 +102,7 @@ class Quotation(models.Model):
     discount_percent = models.DecimalField(
         max_digits=5, decimal_places=2, default=0.00)
     total_price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0)
+        max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f'{self.id} - {self.client_name}'

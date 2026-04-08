@@ -20,11 +20,22 @@ class QuotationItemInline(admin.TabularInline):
 class QuotationAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'client', 'discount_percent',
-                    'total_price', 'created_at', 'created_by')
+                    'formatted_price', 'created_at', 'created_by')
     list_filter = ('created_at', 'client', 'created_by')
     search_fields = ('client__name', 'id')
     inlines = [QuotationItemInline]
     ordering = ('-created_at',)
+
+    def formatted_price(self, obj):
+        return f"{obj.total_price:.2f} €"
+
+    formatted_price.short_description = 'Total Price'
+
+    def save_model(self, request, obj, form, change):
+
+        if not obj.created_by:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Part)
