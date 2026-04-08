@@ -1,0 +1,7 @@
+.env
+autoflow_venv/
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+oem_number_parts.xlsx
