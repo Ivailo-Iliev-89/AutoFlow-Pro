@@ -8,11 +8,13 @@ from io import BytesIO
 from xhtml2pdf import pisa
 from decimal import Decimal
 from inventory.models import Part, Client, Quotation, QuotationItem
+from datetime import datetime
 
 
 def generate_pdf_quote(request):
     '''
-    Generates a printable PDF document by calculating final prices and discounts.
+    Generates a PDF document(for quick offers) by calculating final prices and discounts,
+    Data comes from session/URL-s !
     '''
 
     client_name = request.GET.get('client', 'Client')
@@ -47,11 +49,13 @@ def generate_pdf_quote(request):
         'discount': float(discount_val),
         'subtotal': subtotal,
         'total': total,
+        'date': datetime.now()
     }
 
     template = get_template('inventory/pdf_template.html')
     html = template.render(context)
-    result = BytesIO()
+    result = BytesIO()  # Create a virtual file
+    # "Capture" the HTML and make it a PDF
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
 
     if not pdf.err:
@@ -61,6 +65,8 @@ def generate_pdf_quote(request):
 
 
 def reprint_pdf(request, quote_id):
+    """ Restore and print a PDF document for an old order """
+
     quote = get_object_or_404(Quotation, id=quote_id)
     items = quote.items.all()
     parts_data = []
@@ -69,6 +75,7 @@ def reprint_pdf(request, quote_id):
     for item in items:
         line_total = item.curr_price * item.qty
         subtotal += line_total
+
         parts_data.append({
             'part': item.part,
             'quantity': item.qty,
@@ -98,12 +105,15 @@ def reprint_pdf(request, quote_id):
 @login_required
 @transaction.atomic
 def finalize_quote(request):
+    """
+    Convert the temporary cart into a standing order, reduce inventory in the warehouse and calculate the final price
+    """
 
-    if not request.user.is_staff:
+    if not request.user.is_staff:  # Client Logic
         client = request.user.client_profile
         discount = request.GET.get('discount', 0)
         items_raw = request.GET.get('items', '')
-    else:
+    else:  # Admin Logic
         client_id = request.GET.get('client_id')
         client = get_object_or_404(Client, id=client_id)
         discount = float(request.GET.get('discount', 0))
@@ -119,12 +129,12 @@ def finalize_quote(request):
 
     if items_raw:
         pairs = items_raw.split(',')
+
         for pair in pairs:
             if not pair:
                 continue
             part_id, requested_qty = pair.split(':')
             part = get_object_or_404(Part, id=part_id)
-
             req_qty = int(requested_qty)
             actual_qty = min(req_qty, part.stock_qty)
 
