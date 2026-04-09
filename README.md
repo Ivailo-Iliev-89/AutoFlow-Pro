@@ -23,7 +23,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 ![Client Cart](screenshots/autoflow-client-cart.png)
 > **Visual Profile:** The secure B2B dashboard where OEM search results meet personalized pricing with **automated 10% discount** calculations.Note the green status indicators showing precise stock availability and recently updated items.
 
-#### **3.1. Advanced B2B Quotation Builder (Admin View)**
+#### 3.1. Advanced B2B Quotation Builder (Admin View)**
 ![Admin Offer](screenshots/autoflow-admin-offer.png)
 > **Visual Profile:** Demonstrates the Admin's ability to **dynamically select/switch clients** during the order process. The system automatically recalculates prices based on the selected partner's specific discount tier (`def_discount`) before finalization.
 

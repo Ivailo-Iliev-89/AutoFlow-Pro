@@ -1,7 +1,8 @@
-
+/** Live Search
+ * If charachters are more then 2 --> Send request and reload part list
+ */
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
-  
     const resultsContainer = document.getElementById('search-results');
 
     if (searchInput && resultsContainer) {
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+/** 'Shop-Cart' --> Updates 'badge' with number of parts in nav with anime */
 function addToQuote(part_id) {
     fetch(`/add-to-quote/${part_id}/`, {
         headers: { 'x-requested-with': 'XMLHttpRequest' }
@@ -43,24 +45,33 @@ function addToQuote(part_id) {
     .catch(error => console.error('Error:', error));
 }
 
+/** Global Input Listener
+* Tracks changes in (qty-input) or discount,
+* Recalculates totals when the user changes a number
+ */
 document.addEventListener('input', function(e) {
     if (e.target.classList.contains('qty-input') || e.target.id === 'discount-input') {
         updateQuoteTotals();
     }
 });
 
+/** If the user agrees, deletes entire temporary parts list (Shop-Cart) */
 function clearQuote() {
     if(confirm("Are you sure you want to delete the offer list?")) {
         window.location.href = "/clear-quote/";
     }
 }
 
+/** Remove a specific item,
+* Asks for confirmation and sends a request to the server to remove 
+* only the selected part by its ID. */
 function removeFromQuote(partId) {
     if(confirm("Remove a part from offer?")) {
         window.location.href = `/remove-from-quote/${partId}/`;
     }
 }
 
+/** Creates a PDF offer without saving to the database */
 function generatePDF() {
     const select = document.getElementById('client-select');
     let clientName = "";
@@ -86,6 +97,7 @@ function generatePDF() {
     window.location.href = `/generate-pdf/?client=${encodeURIComponent(clientName)}&discount=${discount}&items=${itemsParam}`;
 }
 
+/** When selecting a client from the list, automatically fills in his personal discount from the database */
 function updateClientDiscount() {
     const select = document.getElementById('client-select');
     if (select.tagName === "SELECT") {
@@ -96,7 +108,17 @@ function updateClientDiscount() {
     }
 }
 
+/** Validate Quantity (minimum 1), 
+ * Alerts with 'Low Stock', 
+ * Calculate sum with discount and total price */
 function updateQuoteTotals() {
+    document.querySelectorAll('.qty-input').forEach(input => {
+        
+        if (input.value < 1 || input.value === "") {
+            input.value = 1; 
+        }
+    });
+
     const discount = parseFloat(document.getElementById('discount-input').value) || 0;
     let subtotal = 0;
 
@@ -128,6 +150,8 @@ function updateQuoteTotals() {
     document.getElementById('final-total').innerText = finalTotal.toFixed(2) + ' euro.';
 }
 
+/** Sends data to server for permanent recording in the database and downloading of availability,
+ * Checks for selected client and valid quantities one last time. */
 function submitFinalize() {
     const clientInput = document.getElementById('client-select');
   
@@ -145,12 +169,27 @@ function submitFinalize() {
     }
 
     let itemsData = [];
+    let hasError = false; 
+
     document.querySelectorAll('.row-part').forEach(row => {
         let partBtn = row.querySelector('button[onclick*="removeFromQuote"]');
         let partId = partBtn.getAttribute('onclick').match(/'(\d+)'/)[1];
-        let qty = row.querySelector('.qty-input').value;
+        
+        let qtyInput = row.querySelector('.qty-input');
+        let qty = parseInt(qtyInput.value);
+
+        if (isNaN(qty) || qty < 1) {
+            alert("Quantity must be at least 1!");
+            qtyInput.focus(); 
+            qtyInput.classList.add('border-red-500'); 
+            hasError = true;
+            return;
+        }
+
         itemsData.push(`${partId}:${qty}`);
     });
+
+    if (hasError) return;
 
     if (itemsData.length === 0) {
         alert("Your cart is empty!");
@@ -161,6 +200,9 @@ function submitFinalize() {
         window.location.href = `/finalize-quote/?client_id=${clientId}&discount=${discount}&items=${itemsData.join(',')}`;
     }
 }
+
+/** Used in dropdown menu or customer list,
+* Filters customers in real time as you typing their name */
 function filterClients() {
     let input = document.getElementById('client-search').value.toLowerCase();
     let items = document.getElementsByClassName('client-item');
