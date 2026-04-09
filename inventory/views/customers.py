@@ -5,6 +5,7 @@ from django.db.models.functions import Coalesce
 from decimal import Decimal
 from inventory.models import Part, Client, Quotation
 from inventory.forms import CustomUserCreationForm
+from ..services import get_client_dashboard_data
 
 
 def dashboard(request):
@@ -30,23 +31,22 @@ def dashboard(request):
 
             # Filter by 'client__user' to reach the User model through the Client
             try:
-                current_client = request.user.client_profile
+                client_profile = request.user.client_profile
                 my_orders = Quotation.objects.filter(
-                    client=current_client).order_by('-created_at')
+                    client=client_profile).order_by('-created_at')
 
             # If the client relation fails, filter by the creator of the record
             except:
+                client_profile = None
                 my_orders = Quotation.objects.filter(
                     created_by=request.user).order_by('-created_at')
 
-            # Coalesce handles cases with no orders by returning 0.00 instead of None.
-            total_spent = my_orders.aggregate(total=Coalesce(
-                Sum('total_price'), Decimal('0.00')))['total']
+            stats = get_client_dashboard_data(request.user, my_orders)
 
             context = {
+                'client': client_profile,
                 'my_orders': my_orders[:10],
-                'total_spent': total_spent,
-                'order_count': my_orders.count(),
+                **stats
             }
 
             return render(request, 'clients/client_dashboard.html', context)
@@ -68,11 +68,12 @@ def client_detail(request, pk):
     '''
     Displays Customer profile - Contact information and history of sales.
     '''
+
     client = get_object_or_404(Client, pk=pk)
     client_quotations = client.quotations.all().order_by(
-        '-created_at')[:5]  # Shows last 5 offers
+        '-created_at')[:5]
 
-    # Calculate total turnover for curr client for all offers
+    # Calculate total turnover to current client for all offers
     total_spent = sum(q.total_price for q in client_quotations.all())
 
     context = {
