@@ -23,7 +23,11 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 ![Client Cart](screenshots/autoflow-client-cart.png)
 > **Visual Profile:** The secure B2B dashboard where OEM search results meet personalized pricing with **automated 10% discount** calculations.Note the green status indicators showing precise stock availability and recently updated items.
 
-#### 3.1. Advanced B2B Quotation Builder (Admin View)**
+#### 3.1. Personalized Client Dashboard (Live Overview)**
+![Client Dashboard](screenshots/autoflow-client-dashboard.png)
+> **Visual Profile:** A data-driven B2B dashboard featuring **personalized KPI tiles for orders and discounts**, alongside a real-time **spending chart with 20€ interval scaling**. The interface integrates a streamlined "Recent Orders" list with a clean hover-to-reveal PDF action.
+
+#### 3.2. Advanced B2B Quotation Builder (Admin View)**
 ![Admin Offer](screenshots/autoflow-admin-offer.png)
 > **Visual Profile:** Demonstrates the Admin's ability to **dynamically select/switch clients** during the order process. The system automatically recalculates prices based on the selected partner's specific discount tier (`def_discount`) before finalization.
 
@@ -51,6 +55,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 * **Relational Inventory Core**: <u>Engineered</u> a scalable database schema using Django ORM that <u>links</u> OEM numbers, manufacturers (Brands), and categories, <u>ensuring</u> 100% data integrity across the catalog.
 * **B2B Client Hierarchy**: <u>Implemented</u> a multi-layered client logic (Service, Retail, Shop) that <u>calculates</u> and <u>applies</u> personalized loyalty discounts (`def_discount`) dynamically within the user's live session.
 * **Quotation Snapshot Logic**: <u>Architected</u> a robust historical tracking system using `QuotationItem` to <u>lock</u> part prices at the moment of offer creation, <u>protecting</u> records against future price or catalog fluctuations.
+* **Real-Time Partner Analytics**: <u>Engineered</u> a dynamic client dashboard that <u>aggregates</u> transactional data into visual KPIs and performance charts, <u>providing</u> partners with instant oversight of their spending trends and order history.
 * **Automated Stock Safeguard**: <u>Developed</u> server-side validation logic that <u>cross-checks</u> cart quantities against real-time `stock_qty`, <u>preventing</u> over-ordering and ensuring reliable fulfillment.
 * **Dynamic UI Components**: <u>Developed</u> high-performance "Infinite Marquee" galleries using Tailwind CSS to <u>showcase</u> partner brands (Bosch, Brembo, etc.) and <u>enhance</u> platform professional credibility.
 * **Custom Auth & Permissions**: <u>Defined</u> granular user roles (`is_staff` vs `is_client`) by <u>extending</u> the Django User model to <u>secure</u> administrative warehouse operations and order management.
@@ -71,6 +76,7 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 
 * **Financial Precision**: <u>Mastered</u> the use of the `Decimal` type over `Float` to <u>ensure</u> 100% accuracy in discount-heavy wholesale transactions.
 * **Relational Data Modeling**: <u>Sharpened</u> skills in <u>designing</u> complex `ForeignKey` and `OneToMany` relationships to <u>associate</u> live inventory with historical quotation snapshots.
+* **Data Visualization & UX Subtlety**: <u>Gained</u> experience in <u>translating</u> raw database records into intuitive visual layouts, <u>utilizing</u> CSS hover states and chart scaling to <u>maintain</u> a clean, non-intrusive professional interface.
 * **Business Logic Execution**: <u>Recognized</u> the vital importance of <u>creating</u> immutable data snapshots (`QuotationItem`) to <u>ensure</u> that generated documents remain accurate regardless of future price updates.
 * **Advanced CSS & UX**: <u>Discovered</u> how to <u>optimize</u> user engagement by <u>deploying</u> Tailwind animations and "hover-to-pause" logic for a premium B2B aesthetic.
 * **Atomic Transactions**: <u>Learned</u> to <u>protect</u> database integrity by ensuring stock deductions only occur upon successful order finalization.
@@ -120,7 +126,6 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 ### **Future Improvements**
 
 * **Car-to-Part Compatibility**: <u>Integrate</u> a `CarMake` and `CarModel` database to <u>provide</u> a digital garage for precise vehicle-specific part matching.
-* **Automated PDF Generation**: <u>Integrate</u> `WeasyPrint` to <u>export</u> professional, print-ready PDF Quotations for clients directly from the dashboard.
 * **Intelligent Filtering Hub**: <u>Implement</u> high-speed filtering menus by **Vehicle Brand**, **Engine Type**, and **Category** to <u>accelerate</u> discovery.
 * **Sales Analytics Dashboard**: <u>Build</u> a visual reporting tool to <u>track</u> revenue trends and top-performing OEM brands over time.
 
