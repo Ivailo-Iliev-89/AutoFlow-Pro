@@ -103,18 +103,21 @@
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </form>
-                {% else %}
-
-                    <a href="{% url 'register' %}" 
-                    class="bg-white text-blue-600 px-8 py-1 rounded-2xl font-black uppercase hover:bg-gray-100 transition shadow-lg">
-                    Register
-                    </a>
-
-                    <a href="{% url 'login' %}" 
-                    class="bg-white text-blue-600 px-8 py-1 rounded-2xl font-black  uppercase hover:bg-gray-100 transition shadow-lg">
-                    Login
-                    </a>
                     
+                {% else %}
+                    <div class="flex items-center gap-2 sm:gap-4">
+                        <a href="{% url 'register' %}"
+                        class="bg-white text-blue-600 px-3 py-1.5 sm:px-8 sm:py-2 rounded-2xl font-black uppercase 
+                        hover:bg-gray-100 transition shadow-lg text-[10px] sm:text-xs whitespace-nowrap">
+                        Register
+                        </a>
+
+                        <a href="{% url 'login' %}" 
+                        class="bg-white text-blue-600 px-3 py-1.5 sm:px-8 sm:py-2 rounded-2xl font-black uppercase 
+                        hover:bg-gray-100 transition shadow-lg text-[10px] sm:text-xs whitespace-nowrap">
+                        Login
+                        </a>
+                    </div>
                 {% endif %}
             </div>
         </div>
