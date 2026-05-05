@@ -128,6 +128,3 @@ By integrating real-time stock tracking with an intelligent quotation engine, it
 * **Car-to-Part Compatibility**: <u>Integrate</u> a `CarMake` and `CarModel` database to <u>provide</u> a digital garage for precise vehicle-specific part matching.
 * **Intelligent Filtering Hub**: <u>Implement</u> high-speed filtering menus by **Vehicle Brand**, **Engine Type**, and **Category** to <u>accelerate</u> discovery.
 * **Sales Analytics Dashboard**: <u>Build</u> a visual reporting tool to <u>track</u> revenue trends and top-performing OEM brands over time.
-
-
-*Developed by **[Ivailo Iliev]** - Bridging Business Logic with High-Performance Software.*
